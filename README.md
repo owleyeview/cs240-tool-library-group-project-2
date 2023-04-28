@@ -42,6 +42,7 @@ currently the Controller directly communicates with the DAO(Data Access Object),
 ## To do:
 - create a custom list data structure to hold our tool objects (in ToolController.java or a new service layer?)
 - implement the library Members objects (maybe with another custom data structure?)
+- associate tools with members who own them
 - integrate testing of all the Java methods with JUnit
 - figure out how to handle and present the boolean value toolIsAvailable in the frontend
 - polish the front end
