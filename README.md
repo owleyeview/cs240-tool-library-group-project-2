@@ -37,7 +37,7 @@ currently the Controller directly communicates with the DAO(Data Access Object),
 - this program uses the JPA library to manage database interactions.  Learn more here: https://spring.io/guides/gs/accessing-data-jpa/
 - /dao/ToolDao.java file
 ### Database // currently built for a MySQL database
-- if you run MySQL Workbench on your local computer and run the Java backend program ToolLibraryApplication.java, a database table for tools will automatically be created
+- if you run mysql server (or MySQL Workbench) on your local computer and create a database called tool_library, when you run the Java backend program ToolLibraryApplication.java, a database table for tools will automatically be created
 
 ## To do:
 - create a custom list data structure to hold our tool objects (in ToolController.java or a new service layer?)
@@ -53,6 +53,7 @@ currently the Controller directly communicates with the DAO(Data Access Object),
 - Postman has been used to test the http REST API and make sure the backend is functioning properly
 
 ## Dependencies
+- mysql server (in terminal on my mac, I ran `brew install mysql`)
 - npm (node package manager from node.js)
 
 ## How to get it running locally
