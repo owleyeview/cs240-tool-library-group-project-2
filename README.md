@@ -58,12 +58,16 @@ currently the Controller directly communicates with the DAO(Data Access Object),
 - npm (node package manager from node.js)
 
 ## How to get it running locally
+
+### Setup (do this once)
 - in terminal, navigate to the folder you want the project to live in
 - use `git clone https://github.com/owleyeview/cs240-tool-library-group-project-2.git` to download the project
-- I used VSCode to create the frontend javascript code and IntelliJ to create the backend code 
-- open the tool-library-java-backend folder with your Java editor of choice
-- open MySQL Workbench
-- run ToolLibraryApplication.java (this should create a database table in MySQL Workbench)
-- to open the frontend code with VSCode, `cd react-frontend`, `code .` or just open that folder from within VSCode
-- in terminal, from the /react-frontend/ folder, type `npm start` to launch the frontend
-- if the browser doesn't automatically open, navigate to  http://localhost:3000/ in your web browser to interact with the frontend
+- create a MySQL database named "tool_library"
+- navigate to `tool-library-java-backend` directory
+- run `mvn package`. Do this whenever you modify the backend.
+
+### Running the program
+
+- in terminal, navigate to root directory of this project
+- run `./start.sh`
+- that's it
