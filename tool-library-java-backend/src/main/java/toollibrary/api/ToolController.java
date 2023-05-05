@@ -1,8 +1,8 @@
-package com.whatcom.cs240.toollibrary.api;
+package toollibrary.api;
 
-import com.whatcom.cs240.toollibrary.dao.ToolDao;
-import com.whatcom.cs240.toollibrary.exception.ResourceNotFoundException;
-import com.whatcom.cs240.toollibrary.model.Tool;
+import toollibrary.dao.ToolDao;
+import toollibrary.exception.ResourceNotFoundException;
+import toollibrary.model.Tool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

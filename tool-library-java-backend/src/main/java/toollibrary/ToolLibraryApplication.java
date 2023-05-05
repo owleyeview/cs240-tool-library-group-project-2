@@ -1,4 +1,4 @@
-package com.whatcom.cs240.toollibrary;
+package toollibrary;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

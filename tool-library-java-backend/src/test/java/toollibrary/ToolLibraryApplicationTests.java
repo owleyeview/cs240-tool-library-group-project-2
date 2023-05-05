@@ -1,4 +1,4 @@
-package com.whatcom.cs240.toollibrary;
+package toollibrary;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

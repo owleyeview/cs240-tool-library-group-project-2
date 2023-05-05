@@ -1,4 +1,4 @@
-package com.whatcom.cs240.toollibrary.model;
+package toollibrary.model;
 
 
 import jakarta.persistence.*;

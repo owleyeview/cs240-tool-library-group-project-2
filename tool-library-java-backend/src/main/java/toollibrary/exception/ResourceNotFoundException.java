@@ -1,4 +1,4 @@
-package com.whatcom.cs240.toollibrary.exception;
+package toollibrary.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

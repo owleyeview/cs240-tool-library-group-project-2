@@ -1,6 +1,6 @@
-package com.whatcom.cs240.toollibrary.dao;
+package toollibrary.dao;
 
-import com.whatcom.cs240.toollibrary.model.Tool;
+import toollibrary.model.Tool;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
