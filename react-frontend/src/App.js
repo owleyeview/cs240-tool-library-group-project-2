@@ -1,11 +1,10 @@
 import './App.css';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import FooterComponent from './components/FooterComponent';
 import HeaderComponent from './components/HeaderComponent';
 import ListToolComponent from './components/ListToolComponent';
 import AddToolComponent from './components/AddToolComponent';
 
-function App() {
+export default function App() {
   return (
     <div>
       <Router>
@@ -18,10 +17,7 @@ function App() {
             <Route path = "/update-tool/:id" element = {<AddToolComponent/>}></Route>
           </Routes>
         </div>
-        <FooterComponent />
     </Router>
     </div>
   );
 }
-
-export default App;
