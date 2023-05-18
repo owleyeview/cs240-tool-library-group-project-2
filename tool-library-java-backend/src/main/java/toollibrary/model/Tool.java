@@ -24,18 +24,18 @@ public class Tool {
     @Column(name = "tool_location")
     private String toolLocation;
 
-    @Column(name = "tool_is_available") // may want to define this value another way in the database
-    private boolean toolIsAvailable = true;
+    @OneToOne
+    @JoinColumn(name = "next")
+    private Waitlist next;
 
     // Constructors
 
     // 5 parameter constructor
-    public Tool(String toolName, String toolDescription, String toolCategory, String toolLocation, boolean toolIsAvailable) {
+    public Tool(String toolName, String toolDescription, String toolCategory, String toolLocation) {
         this.toolName = toolName;
         this.toolDescription = toolDescription;
         this.toolCategory = toolCategory;
         this.toolLocation = toolLocation;
-        this.toolIsAvailable = toolIsAvailable;
     }
 
     // default constructor
@@ -45,10 +45,6 @@ public class Tool {
 
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getToolName() {
@@ -84,10 +80,7 @@ public class Tool {
     }
 
     public boolean isToolIsAvailable() {
-        return toolIsAvailable;
-    }
-
-    public void setToolIsAvailable(boolean toolIsAvailable) {
-        this.toolIsAvailable = toolIsAvailable;
+        // TODO have it check if it is availible
+        return true;
     }
 }
