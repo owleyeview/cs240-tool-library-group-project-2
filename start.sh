@@ -2,7 +2,7 @@
 echo "Starting backend..."
 
 # run the backend and move the process to the background
-java -jar tool-library-java-backend/target/tool-library-java-backend-0.0.1-SNAPSHOT.jar &
+java -jar tool-library-java-backend/target/tool-library.jar &
 
 echo "Starting frontend..."
 

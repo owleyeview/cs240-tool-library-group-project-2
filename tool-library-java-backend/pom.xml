@@ -55,6 +55,8 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+
+        <finalName>tool-library</finalName>
     </build>
 
 </project>
