@@ -2,7 +2,6 @@ package toollibrary.api;
 
 
 import toollibrary.service.ToolService;
-import toollibrary.exception.ResourceNotFoundException;
 import toollibrary.model.Tool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
