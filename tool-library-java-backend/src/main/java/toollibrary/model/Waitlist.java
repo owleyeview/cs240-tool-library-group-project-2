@@ -1,8 +1,11 @@
 package toollibrary.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.*;
 
-// This class is a queue for keeping track of who gets the tool next
+// Objects of this class are nodes in a queue for keeping track of who gets the tool next
 
 @Entity
 @Table(name = "waitlist")
@@ -11,10 +14,25 @@ public class Waitlist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    // who gets the tool after the user
-    @OneToOne
-    @JoinColumn(name = "next")
-    private Waitlist next;
+    // if the tool is deleted, delete this too
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne(optional = false)
+    private Tool tool;
 
     // TODO add a column for the user
+
+    public Waitlist(Tool tool) {
+        if (tool == null) {
+            throw new NullPointerException();
+        }
+        this.tool = tool;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public Tool getTool() {
+        return tool;
+    }
 }
