@@ -48,7 +48,6 @@ public class ToolController {
         toolToUpdate.setToolDescription(tool.getToolDescription());
         toolToUpdate.setToolCategory(tool.getToolCategory());
         toolToUpdate.setToolLocation(tool.getToolLocation());
-        toolToUpdate.setToolIsAvailable(tool.isToolIsAvailable());
 
         Tool updatedTool = toolDao.save(toolToUpdate);
         return ResponseEntity.ok(updatedTool);
