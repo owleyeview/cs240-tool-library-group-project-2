@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Link, useNavigate, useParams } from 'react-router-dom'
 import ToolService from '../services/ToolService'
+import Spacer from './Spacer.js'
 
 const AddToolComponent = () => {
   
@@ -64,8 +65,9 @@ const AddToolComponent = () => {
            <div className = "container">
                 <div className = "row">
                     <div className = "card col-md-6 offset-md-3 offset-md-3">
+                        <Spacer axis="vertical" size={16} />
                        {
-                           title()
+                            title()
                        }
                         <div className = "card-body">
                             <form>
