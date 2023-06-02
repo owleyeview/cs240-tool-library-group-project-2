@@ -17,15 +17,23 @@ public class Waitlist {
     // if the tool is deleted, delete this too
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(optional = false)
+    @JoinColumn
     private Tool tool;
 
-    // TODO add a column for the user
+    // if the user is deleted, delete this too
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne(optional = false)
+    @JoinColumn
+    private Member member;
 
-    public Waitlist(Tool tool) {
-        if (tool == null) {
+    public Waitlist() { }
+
+    public Waitlist(Tool tool, Member member) {
+        if (tool == null || member == null) {
             throw new NullPointerException();
         }
         this.tool = tool;
+        this.member = member;
     }
 
     public long getId() {
@@ -34,5 +42,9 @@ public class Waitlist {
 
     public Tool getTool() {
         return tool;
+    }
+
+    public Member getMember() {
+        return member;
     }
 }

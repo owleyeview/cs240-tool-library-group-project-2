@@ -24,9 +24,13 @@ public class Tool {
     @Column(name = "tool_location")
     private String toolLocation;
 
-    @OneToOne
-    @JoinColumn(name = "next")
-    private Waitlist next;
+    @ManyToOne
+    @JoinColumn
+    private Member owner;
+
+    @ManyToOne
+    @JoinColumn
+    private Member checkedOutTo;
 
     // Constructors
 
@@ -77,6 +81,22 @@ public class Tool {
 
     public void setToolLocation(String location) {
         this.toolLocation = location;
+    }
+
+    public Member getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Member owner) {
+        this.owner = owner;
+    }
+
+    public Member getCheckedOutTo() {
+        return checkedOutTo;
+    }
+
+    public void setCheckedOutTo(Member checkedOutTo) {
+        this.checkedOutTo = checkedOutTo;
     }
 
     public boolean isToolIsAvailable() {
