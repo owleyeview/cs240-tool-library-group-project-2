@@ -1,8 +1,6 @@
 package toollibrary.model;
 
-
 import jakarta.persistence.*;
-import toollibrary.api.passwordEnc;
 
 // Member object that stores the information for each member
 @Entity // This annotation indicates that the class is an entity and is mapped to a database table.
@@ -19,9 +17,9 @@ public class Member {
     @Column(name = "password_hash")
     private String passwordHash;
 
-    public Member(String username, String password) {
+    public Member(String username, String passwordHash) {
         this.username = username;
-        this.passwordHash = passwordEnc.getHashSHA1(password);
+        this.passwordHash = passwordHash;
     }
 
     public Member(){
