@@ -43,7 +43,7 @@ export default function AddToolComponent({ showLogin }) {
                 setToolCategory(data.toolCategory ?? '')
                 setToolLocation(data.toolLocation ?? '')
                 setToolIsAvailable(data.toolIsAvailable ?? true)
-            }).catch(console.error);
+            }).catch(error => console.error(error.response));
         }
     }, [id]);
 

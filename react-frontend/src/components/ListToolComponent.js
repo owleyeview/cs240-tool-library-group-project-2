@@ -15,7 +15,7 @@ export default function ListToolComponent({ showLogin }) {
         setTools(response.data)
         console.log(response.data);
       }).catch((error) => {
-          console.log(error);
+          console.log(error.response.data);
       })
   }
 
@@ -38,7 +38,7 @@ export default function ListToolComponent({ showLogin }) {
 
   return (
   <div className='container'>
-    <Spacer axis="vertical" size={16} />
+    <Spacer axis="vertical" size={50} />
     <h2 className="text-center">Tools List</h2>
     <Link to = "/add-tool" className="btn btn-primary mb-2"> Add Tool </Link>
     <table className="table table-bordered table-striped">

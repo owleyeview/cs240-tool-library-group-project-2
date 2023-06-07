@@ -7,6 +7,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  position: absolute;
 }
 
 .sign-in-btn {
@@ -46,4 +47,9 @@
   position: absolute;
   top: 0;
   right: 0;
+}
+
+.align-center {
+  display: flex;
+  justify-content: right;
 }
