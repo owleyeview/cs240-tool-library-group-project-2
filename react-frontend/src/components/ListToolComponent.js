@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import ToolService from '../services/ToolService'
+import * as ToolService from '../services/ToolService'
 import Spacer from './Spacer.js'
 
-const ListToolComponent = () => {
+export default function ListToolComponent({ showLogin }) {
   const [tools, setTools] = useState([])
     
   useEffect(() => { 
@@ -20,12 +20,19 @@ const ListToolComponent = () => {
   }
 
   const deleteTool = (id) => {
-    ToolService.deleteTool(id).then((response) => {
-    getTools(); // refresh the list of tools
-    }).catch((error) => {
-        console.log(error);
-    })
+    if (localStorage.token) {
+      ToolService.deleteTool(id).then(getTools, error => {
+        if (error.response.status === 401) {
+          alert('You can only delete a tool you made');
+        } else {
+          console.error(error);
+        }
+      });
+    } else {
+      showLogin();
+    }
   }
+
   return (
   <div className='container'>
     <Spacer axis="vertical" size={16} />
@@ -66,5 +73,3 @@ const ListToolComponent = () => {
   </div>
   )
 }
-
-export default ListToolComponent;

@@ -9,12 +9,41 @@
   color: white;
 }
 
-.footer {
-  position: absolute;
+.sign-in-btn {
+  /* Put the button on the right of the navbar */
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.login-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
   bottom: 0;
-  width: 100%;
-  height: 60px;
-  background-color: #282c34;
-  text-align: center;
-  color: white;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #9999;
+}
+
+.login-box {
+  position: relative;
+  padding: 10px;
+  height: fit-content;
+  width: fit-content;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 5px 5px gray;
+}
+
+.login-box .btn {
+  margin-right: 6px;
+}
+
+.close-login {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
