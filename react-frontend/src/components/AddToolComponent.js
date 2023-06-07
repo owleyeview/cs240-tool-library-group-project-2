@@ -23,7 +23,7 @@ const AddToolComponent = () => {
                 console.log(response.data)
                 navigate('/tools')
             }).catch(error => {
-                console.log(error)
+                console.log(error.response.data)
             })
 
         }else{
@@ -31,7 +31,7 @@ const AddToolComponent = () => {
                 console.log(response.data)
                 navigate('/tools');
             }).catch(error => {
-                console.log(error)
+                console.log(error.response.data)
             })
         }  
     }
@@ -45,7 +45,7 @@ const AddToolComponent = () => {
             setToolLocation(response.data.toolLocation || '')
             setToolIsAvailable(response.data.toolIsAvailable || true)
         }).catch(error => {
-            console.log(error)
+            console.log(error.response.data)
         })
         }
     }, [id])

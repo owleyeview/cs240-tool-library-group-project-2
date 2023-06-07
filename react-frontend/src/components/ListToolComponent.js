@@ -15,7 +15,7 @@ const ListToolComponent = () => {
         setTools(response.data)
         console.log(response.data);
       }).catch((error) => {
-          console.log(error);
+          console.log(error.response.data);
       })
   }
 
@@ -23,7 +23,7 @@ const ListToolComponent = () => {
     ToolService.deleteTool(id).then((response) => {
     getTools(); // refresh the list of tools
     }).catch((error) => {
-        console.log(error);
+        console.log(error.response.data);
     })
   }
   return (
