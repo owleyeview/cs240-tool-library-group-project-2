@@ -8,9 +8,11 @@ const HeaderComponent = () => {
             <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                 <Spacer axis="horizontal" size={16} />
                 <div>
-                    <a href="https://www.example.com" className="navbar-brand">Your Neighbourhood Tool App</a>
+                  <img src="favicon-wrench-96.png" alt="App Logo" width="85%" />
                 </div>
-                <Spacer axis="vertical" size={40} />
+                <div>
+                    <a href="https://www.example.com" className="navbar-brand align-center"><h2>Your Neighbourhood Tool App</h2></a>
+                </div>
             </nav>
         </header>
     </div>

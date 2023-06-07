@@ -7,6 +7,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  position: absolute;
 }
 
 .footer {
@@ -17,4 +18,9 @@
   background-color: #282c34;
   text-align: center;
   color: white;
+}
+
+.align-center {
+  display: flex;
+  justify-content: right;
 }
