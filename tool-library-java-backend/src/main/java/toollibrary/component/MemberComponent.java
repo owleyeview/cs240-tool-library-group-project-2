@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import toollibrary.dao.MemberDao;
+import toollibrary.exception.NotSignedInException;
 import toollibrary.model.Member;
 
 @Component
@@ -17,11 +18,16 @@ public class MemberComponent {
     @Autowired
     private MemberDao memberDao;
 
-    public Member checkCredentials(String credentials) {
+    public Member checkCredentials(String credentials) throws NotSignedInException {
         // TODO make sure credentials are valid
         // this should probably be implemented with a JWT
 
-        return memberDao.findById(Long.parseLong(credentials)).orElse(null);
+        try {
+            return memberDao.findById(Long.parseLong(credentials)).orElseThrow();
+        } catch (Exception e) {
+            throw new NotSignedInException();
+        }
+
     }
 
     /**

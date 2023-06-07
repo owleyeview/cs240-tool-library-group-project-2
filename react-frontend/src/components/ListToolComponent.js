@@ -21,11 +21,14 @@ export default function ListToolComponent({ showLogin }) {
 
   const deleteTool = (id) => {
     if (localStorage.token) {
-      ToolService.deleteTool(id).then(getTools, error => {
-        if (error.response.status === 401) {
+      ToolService.deleteTool(id).then(getTools, ({ response }) => {
+        if (response.status === 403) {
           alert('You can only delete a tool you made');
+        } else if (response.status === 401) {
+          localStorage.removeItem('token');
+          showLogin();
         } else {
-          console.error(error);
+          console.error(response);
         }
       });
     } else {

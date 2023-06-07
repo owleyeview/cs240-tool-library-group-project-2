@@ -19,10 +19,16 @@ export default function AddToolComponent({ showLogin }) {
         if (localStorage.token) {
             const tool = {toolName, toolDescription, toolCategory, toolLocation};
 
-            (id ? ToolService.updateTool(tool, id) : ToolService.createTool(tool)).then(response => {
-                console.log(response.data);
-                navigate('/');
-            }).catch(console.error);
+            (id ? ToolService.updateTool(tool, id) : ToolService.createTool(tool)).then(() => navigate('/'), 
+            ({ response }) => {
+                if (response.status === 401) {
+                    showLogin();
+                } else if (response.status === 403) {
+                    alert("You can only update a tool you created.");
+                } else {
+                    console.error(response);
+                }
+            });
         } else {
             showLogin();
         }

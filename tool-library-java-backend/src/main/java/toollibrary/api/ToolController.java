@@ -2,6 +2,8 @@ package toollibrary.api;
 
 import toollibrary.component.MemberComponent;
 import toollibrary.dao.ToolDao;
+import toollibrary.exception.ForbiddenException;
+import toollibrary.exception.ResourceNotFoundException;
 import toollibrary.model.Member;
 import toollibrary.model.Tool;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,7 @@ public class ToolController {
 
     // get all tools
     @GetMapping
-    public List<Tool> getAllTools() { // we could use our own data structure here
+    public List<Tool> getAllTools() {
         return toolDao.findAll();
     }
 
@@ -30,10 +32,6 @@ public class ToolController {
     @PostMapping("/{user}")
     public ResponseEntity<Tool> createTool(@PathVariable String user, @RequestBody Tool tool) {
         Member member = memberComponent.checkCredentials(user);
-
-        if (member == null) {
-            return ResponseEntity.status(401).build();
-        }
 
         tool.setOwner(member);
         
@@ -45,10 +43,8 @@ public class ToolController {
     // ex: localhost:8080/api/v1/tools/1
     @GetMapping("/{id}")
     public ResponseEntity<Tool> getToolById(@PathVariable long id) {
-        Tool tool = toolDao.findById(id).orElse(null);
-        if (tool == null) {
-            return ResponseEntity.status(404).build();
-        }
+        Tool tool = toolDao.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException());
         
         return ResponseEntity.ok(tool);
     }
@@ -58,17 +54,14 @@ public class ToolController {
     @PutMapping("/{id}/{user}")
     public ResponseEntity<Tool> updateToolById(
             @PathVariable long id, @PathVariable String user, @RequestBody Tool tool) {
-        Tool toolToUpdate = toolDao.findById(id).orElse(null);
-
-        if (toolToUpdate == null) {
-            return ResponseEntity.status(404).build();
-        }
+        Tool toolToUpdate = toolDao.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException());
 
         Member member = memberComponent.checkCredentials(user);
         Member owner = toolToUpdate.getOwner();
 
-        if (member == null || owner == null || owner.getId() != member.getId()) {
-            return ResponseEntity.status(401).build();
+        if (owner == null || owner.getId() != member.getId()) {
+            throw new ForbiddenException();
         }
 
         toolToUpdate.setToolName(tool.getToolName());
@@ -83,17 +76,14 @@ public class ToolController {
     // method to delete a tool by id
     @DeleteMapping("/{id}/{user}")
     public ResponseEntity<Tool> deleteToolById(@PathVariable long id, @PathVariable String user) {
-        Tool toolToDelete = toolDao.findById(id).orElse(null);
-
-        if (toolToDelete == null) {
-            return ResponseEntity.status(404).build();
-        }
+        Tool toolToDelete = toolDao.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException());
 
         Member member = memberComponent.checkCredentials(user);
         Member owner = toolToDelete.getOwner();
 
-        if (member == null || owner == null || owner.getId() != member.getId()) {
-            return ResponseEntity.status(401).build();
+        if (owner == null || owner.getId() != member.getId()) {
+            throw new ForbiddenException();
         }
 
         toolDao.delete(toolToDelete);
