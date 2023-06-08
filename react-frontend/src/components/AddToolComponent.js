@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react'
 import {Link, useNavigate, useParams } from 'react-router-dom'
-import ToolService from '../services/ToolService'
+import * as ToolService from '../services/ToolService'
 import Spacer from './Spacer.js'
 
-const AddToolComponent = () => {
+export default function AddToolComponent({ showLogin }) {
   
     const [toolName, setToolName] = useState('')
     const [toolDescription, setToolDescription] = useState('')
@@ -13,52 +13,40 @@ const AddToolComponent = () => {
     const navigate = useNavigate(); // for navigating back to tools page after adding a tool
     const {id} = useParams();
 
-    const saveOrUpdateTool = (event) => {
+    const saveOrUpdateTool = event => {
         event.preventDefault();
 
-        const tool = {toolName, toolDescription, toolCategory, toolLocation, toolIsAvailable}
+        if (localStorage.token) {
+            const tool = {toolName, toolDescription, toolCategory, toolLocation};
 
-        if(id){
-            ToolService.updateTool(tool, id).then((response) => {
-                console.log(response.data)
-                navigate('/tools')
-            }).catch(error => {
-                console.log(error.response.data)
-            })
-
-        }else{
-            ToolService.createTool(tool).then((response) =>{
-                console.log(response.data)
-                navigate('/tools');
-            }).catch(error => {
-                console.log(error.response.data)
-            })
-        }  
+            (id ? ToolService.updateTool(tool, id) : ToolService.createTool(tool)).then(() => navigate('/'), 
+            ({ response }) => {
+                if (response.status === 401) {
+                    showLogin();
+                } else if (response.status === 403) {
+                    alert("You can only update a tool you created.");
+                } else {
+                    console.error(response);
+                }
+            });
+        } else {
+            showLogin();
+        }
     }
     
     useEffect(() => {
         if (id) {
-        ToolService.getToolById(id).then((response) => {
-            setToolName(response.data.toolName || '') // if a field is null, set to empty string
-            setToolDescription(response.data.toolDescription || '')
-            setToolCategory(response.data.toolCategory || '')
-            setToolLocation(response.data.toolLocation || '')
-            setToolIsAvailable(response.data.toolIsAvailable || true)
-        }).catch(error => {
-            console.log(error.response.data)
-        })
+            // fill in the fields with information about the tool if updating
+            ToolService.getToolById(id).then(({ data }) => {
+                setToolName(data.toolName ?? '') // if a field is null, set to empty string
+                setToolDescription(data.toolDescription ?? '')
+                setToolCategory(data.toolCategory ?? '')
+                setToolLocation(data.toolLocation ?? '')
+                setToolIsAvailable(data.toolIsAvailable ?? true)
+            }).catch(error => console.error(error.response));
         }
-    }, [id])
+    }, [id]);
 
-    // are we updating or adding?
-    const title = () => {
-        if(id){
-            return <h2 className = "text-center">Update Tool</h2>
-        }else{
-            return <h2 className = "text-center">Add Tool</h2>
-        }
-    }
-    
     return (
         <div>
            <br /><br /> 
@@ -66,9 +54,7 @@ const AddToolComponent = () => {
                 <div className = "row">
                     <div className = "card col-md-6 offset-md-3 offset-md-3">
                         <Spacer axis="vertical" size={16} />
-                       {
-                            title()
-                       }
+                        <h2 className = "text-center">{id ? 'Update' : 'Add'} Tool</h2>
                         <div className = "card-body">
                             <form>
                                 <div className = "form-group mb-2">
@@ -135,18 +121,13 @@ const AddToolComponent = () => {
                                     </input>
                                 </div>
 
-                                <button className = "btn btn-success" onClick = {(event) => saveOrUpdateTool(event)} >Submit </button>
-                                <Link to="/tools" className="btn btn-danger"> Cancel </Link>
+                                <button className = "btn btn-success" onClick = {saveOrUpdateTool} >Submit </button>
+                                <Link to="/" className="btn btn-danger"> Cancel </Link>
                             </form>
-
                         </div>
                     </div>
                 </div>
-
            </div>
-
         </div>
     )
 }
-
-export default AddToolComponent

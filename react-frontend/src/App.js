@@ -3,20 +3,27 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import HeaderComponent from './components/HeaderComponent';
 import ListToolComponent from './components/ListToolComponent';
 import AddToolComponent from './components/AddToolComponent';
+import { useState } from 'react';
+import Login from './components/Login';
 
 export default function App() {
+  const [loginShown, setLoginShown] = useState(false);
+
+  const showLogin = () => setLoginShown(true);
+
   return (
     <div>
       <Router>
-        <HeaderComponent />
+        <HeaderComponent showLogin = { showLogin }/>
         <div className= "container">
           <Routes>
-            <Route exact path = "/" element = {<ListToolComponent/>}></Route>
-            <Route path = "/tools" element = {<ListToolComponent/>}></Route>
-            <Route path = "/add-tool" element = {<AddToolComponent/>}></Route>
-            <Route path = "/update-tool/:id" element = {<AddToolComponent/>}></Route>
+            <Route exact path = "/" element = {<ListToolComponent showLogin={showLogin}/>}/>
+            <Route path = "/tools" element = {<ListToolComponent showLogin={showLogin}/>}/>
+            <Route path = "/add-tool" element = {<AddToolComponent showLogin={showLogin}/>}/>
+            <Route path = "/update-tool/:id" element = {<AddToolComponent showLogin={showLogin}/>}/>
           </Routes>
         </div>
+        <Login isShown={loginShown} setLoginShown={setLoginShown} />
     </Router>
     </div>
   );
