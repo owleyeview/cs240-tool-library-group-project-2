@@ -1,6 +1,7 @@
 package toollibrary.model;
 
-
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 // Tool object that stores the information for each tool
@@ -26,15 +27,17 @@ public class Tool {
 
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private Member owner;
 
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private Member checkedOutTo;
 
     // Constructors
 
-    // 5 parameter constructor
+    // 4 parameter constructor
     public Tool(String toolName, String toolDescription, String toolCategory, String toolLocation) {
         this.toolName = toolName;
         this.toolDescription = toolDescription;
@@ -99,8 +102,8 @@ public class Tool {
         this.checkedOutTo = checkedOutTo;
     }
 
-    public boolean isToolIsAvailable() {
-        // TODO have it check if it is availible
-        return true;
+    @JsonGetter("owner")
+    public String getOwnerName() {
+        return this.owner.getUsername();
     }
 }
