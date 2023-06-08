@@ -13,4 +13,6 @@ public interface WaitlistDao extends JpaRepository<Waitlist, Long> {
     /** Selects the oldest row where the tool has specified id */
     @Query(value = "SELECT * FROM waitlist WHERE tool_id = :tool ORDER BY id LIMIT 1", nativeQuery = true)
     public Waitlist getMin(@Param("tool") long tool);
+
+    public boolean existsByToolId(long id);
 }
