@@ -24,8 +24,9 @@ public class WaitlistController {
     private WaitlistDao waitlistDao;
 
     // reserve a tool
-    @PostMapping("/reserve/{id}/{user}")
-    public ResponseEntity<Void> reserve(@PathVariable long id, @PathVariable String user) {
+    @PostMapping("/reserve/{id}")
+    public ResponseEntity<Void> reserve(
+            @PathVariable long id, @RequestHeader("Authorization") String user) {
         Tool tool = toolDao.findById(id).orElse(null);
         Member member = memberComponent.checkCredentials(user);
         if (member == null) {
@@ -42,8 +43,9 @@ public class WaitlistController {
     }
 
     // checkout a tool to a user
-    @PostMapping("/checkout/{id}/{user}")
-    public ResponseEntity<Void> checkout(@PathVariable long id, @PathVariable String user) {
+    @PostMapping("/checkout/{id}")
+    public ResponseEntity<Void> checkout(
+            @PathVariable long id, @RequestHeader("Authorization") String user) {
         Tool tool = toolDao.findById(id).orElse(null);
 
         if (tool == null) {
@@ -74,8 +76,9 @@ public class WaitlistController {
         return ResponseEntity.status(403).build();
     }
 
-    @PostMapping("/return/{id}/{user}")
-    public ResponseEntity<Void> returnTool(@PathVariable long id, @PathVariable String user) {
+    @PostMapping("/return/{id}")
+    public ResponseEntity<Void> returnTool(
+            @PathVariable long id, @RequestHeader("Authorization") String user) {
         Tool tool = toolDao.findById(id).orElse(null);
         Member member = memberComponent.checkCredentials(user);
 

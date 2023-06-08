@@ -29,8 +29,9 @@ public class ToolController {
     }
 
     // create a tool
-    @PostMapping("/{user}")
-    public ResponseEntity<Tool> createTool(@PathVariable String user, @RequestBody Tool tool) {
+    @PostMapping
+    public ResponseEntity<Tool> createTool(
+            @RequestHeader("Authorization") String user, @RequestBody Tool tool) {
         Member member = memberComponent.checkCredentials(user);
 
         tool.setOwner(member);
@@ -51,9 +52,12 @@ public class ToolController {
 
     // method to update a tool by id
     // this one requires a tool object to be passed in the body of the request
-    @PutMapping("/{id}/{user}")
+    @PutMapping("/{id}")
     public ResponseEntity<Tool> updateToolById(
-            @PathVariable long id, @PathVariable String user, @RequestBody Tool tool) {
+            @PathVariable long id,
+            @RequestHeader("Authorization") String user,
+            @RequestBody Tool tool) {
+
         Tool toolToUpdate = toolDao.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException());
 
@@ -74,8 +78,9 @@ public class ToolController {
     }
 
     // method to delete a tool by id
-    @DeleteMapping("/{id}/{user}")
-    public ResponseEntity<Tool> deleteToolById(@PathVariable long id, @PathVariable String user) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Tool> deleteToolById(
+            @PathVariable long id, @RequestHeader("Authorization") String user) {
         Tool toolToDelete = toolDao.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException());
 
