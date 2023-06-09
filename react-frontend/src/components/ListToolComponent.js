@@ -55,17 +55,19 @@ export default function ListToolComponent({ showLogin }) {
       </thead>
       <tbody>
         {
-          tools.map(tool =>
+          tools.map(({ tool, available, mine, canReturn }) =>
             <tr key={tool.id}>
               <td> {tool.id} </td>
               <td> {tool.toolName} </td>
               <td> {tool.toolDescription} </td>
               <td> {tool.toolCategory} </td>
               <td> {tool.toolLocation} </td>
-              <td> {tool.toolIsAvailable} </td>
+              <td> {available ? 'Yes' : 'No'} </td>
               <td>
-                <Link to={`/update-tool/${tool.id}`} className="btn btn-info">Update</Link>
-                <button style={{marginLeft: "10px"}} className="btn btn-danger" onClick={() => deleteTool(tool.id)}>Delete</button>
+                { mine && <>
+                  <Link to={`/update-tool/${tool.id}`} className="btn btn-info">Update</Link>
+                  <button style={{ marginLeft: "10px" }} className="btn btn-danger" onClick={() => deleteTool(tool.id)}>Delete</button>
+                </> }
               </td>
             </tr>
           )

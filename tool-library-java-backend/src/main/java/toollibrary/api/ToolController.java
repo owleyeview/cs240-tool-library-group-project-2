@@ -1,6 +1,8 @@
 package toollibrary.api;
 
 import toollibrary.component.MemberComponent;
+import toollibrary.component.ToolComponent;
+import toollibrary.component.ToolData;
 import toollibrary.dao.ToolDao;
 import toollibrary.exception.ForbiddenException;
 import toollibrary.exception.ResourceNotFoundException;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin("*") // allows requests from any origin
@@ -22,10 +25,20 @@ public class ToolController {
     @Autowired
     private MemberComponent memberComponent;
 
+    @Autowired
+    private ToolComponent toolComponent;
+
     // get all tools
     @GetMapping
-    public List<Tool> getAllTools() {
-        return toolDao.findAll();
+    public List<ToolData> getAllTools(@RequestHeader("Authorization") String user) { 
+        Member member = memberComponent.findMember(user);       
+        List<ToolData> tools = new ArrayList<ToolData>();
+
+        for (Tool tool : toolDao.findAll()) {
+            tools.add(toolComponent.getToolData(tool, member));
+        }
+
+        return tools;
     }
 
     // create a tool
@@ -43,11 +56,12 @@ public class ToolController {
     // requested by going to the request mapping url and adding the id of the tool
     // ex: localhost:8080/api/v1/tools/1
     @GetMapping("/{id}")
-    public ResponseEntity<Tool> getToolById(@PathVariable long id) {
+    public ResponseEntity<ToolData> getToolById(
+            @PathVariable long id, @RequestHeader("Authorization") String user) {
         Tool tool = toolDao.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException());
-        
-        return ResponseEntity.ok(tool);
+        Member member = memberComponent.findMember(user);
+        return ResponseEntity.ok(toolComponent.getToolData(tool, member));
     }
 
     // method to update a tool by id

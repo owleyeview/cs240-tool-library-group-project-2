@@ -42,13 +42,26 @@ public class MemberComponent {
     /**
      * checks if a token is valid
      * @return a Member object for that user
+     * @throws NotSignedInException if it doesn't work
      */
     public Member checkCredentials(String credentials) throws NotSignedInException {
+        Member member = findMember(credentials);
+        if (member == null) {
+            throw new NotSignedInException();
+        }
+        return member;
+    }
+
+    /**
+     * checks if a token is valid
+     * @return a Member object for that user, or null if it doesn't work
+     */
+    public Member findMember(String credentials) {
         try {
             Long id = verifier.verify(credentials).getClaim("userId").asLong();
-            return memberDao.findById(id).orElseThrow();
+            return memberDao.findById(id).orElse(null);
         } catch (Exception e) {
-            throw new NotSignedInException();
+            return null;
         }
     }
 

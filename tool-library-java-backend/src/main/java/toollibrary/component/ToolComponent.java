@@ -17,7 +17,9 @@ public class ToolComponent {
         return new ToolData(
             tool,
             tool.getCheckedOutTo() == null && !waitlistDao.existsByToolId(tool.getId()),
-            member != null && member.getId() == tool.getOwner().getId(),
-            member != null && tool.getCheckedOutTo().getId() == member.getId());
+            member != null && tool.getOwner() != null &&
+                member.getId() == tool.getOwner().getId(),
+            member != null && tool.getCheckedOutTo() != null &&
+                tool.getCheckedOutTo().getId() == member.getId());
     }
 }
