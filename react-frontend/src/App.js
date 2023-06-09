@@ -11,19 +11,29 @@ export default function App() {
 
   const showLogin = () => setLoginShown(true);
 
+  const loginEvent = { onLogin: () => {} };
+
   return (
     <div>
       <Router>
         <HeaderComponent showLogin = { showLogin }/>
         <div className= "container">
           <Routes>
-            <Route exact path = "/" element = {<ListToolComponent showLogin={showLogin}/>}/>
-            <Route path = "/tools" element = {<ListToolComponent showLogin={showLogin}/>}/>
-            <Route path = "/add-tool" element = {<AddToolComponent showLogin={showLogin}/>}/>
-            <Route path = "/update-tool/:id" element = {<AddToolComponent showLogin={showLogin}/>}/>
+            <Route exact path = "/" element = {
+              <ListToolComponent showLogin={showLogin} loginEvent={loginEvent}/>
+            }/>
+            <Route path = "/tools" element = {
+              <ListToolComponent showLogin={showLogin} loginEvent={loginEvent}/>
+            }/>
+            <Route path = "/add-tool" element = {
+              <AddToolComponent showLogin={showLogin}/>
+            }/>
+            <Route path = "/update-tool/:id" element = {
+              <AddToolComponent showLogin={showLogin}/>
+            }/>
           </Routes>
         </div>
-        <Login isShown={loginShown} setLoginShown={setLoginShown} />
+        <Login isShown={loginShown} setLoginShown={setLoginShown} loginEvent={loginEvent}/>
     </Router>
     </div>
   );

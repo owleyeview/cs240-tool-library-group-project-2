@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import * as ToolService from '../services/ToolService';
 import { request } from '../services/ReservationService';
 import Spacer from './Spacer.js';
 
-export default function ListToolComponent({ showLogin }) {
-  const [tools, setTools] = useState([])
+export default function ListToolComponent({ showLogin, loginEvent }) {
+  let [tools, setTools] = useState(null);
     
-  useEffect(() => { 
+  if (tools === null) {
     getTools();
-  }, [])
-  
-  const getTools = () => {
+    tools = [];
+  }
+
+  // when logging in is sucessful, refresh the tool list
+  loginEvent.onLogin = getTools;
+
+  function getTools() {
     ToolService.getTools().then((response) => {
         setTools(response.data)
         console.log(response.data);
@@ -20,7 +24,7 @@ export default function ListToolComponent({ showLogin }) {
       })
   }
 
-  const deleteTool = (id) => {
+  function deleteTool(id) {
     if (localStorage.token) {
       ToolService.deleteTool(id).then(getTools, ({ response }) => {
         if (response.status === 403) {
@@ -69,6 +73,7 @@ export default function ListToolComponent({ showLogin }) {
           <th> Description </th>
           <th> Category </th>
           <th> Location </th>
+          <th> Owner </th>
           <th> Actions </th>
         </tr>
       </thead>
@@ -80,6 +85,7 @@ export default function ListToolComponent({ showLogin }) {
               <td> {tool.toolDescription} </td>
               <td> {tool.toolCategory} </td>
               <td> {tool.toolLocation} </td>
+              <td> {tool.owner} </td>
               <td className = "spacing">
                 { mine && <>
                   <Link to={`/update-tool/${tool.id}`} className="btn btn-info">Update</Link>

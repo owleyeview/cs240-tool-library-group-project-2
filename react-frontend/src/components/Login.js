@@ -56,6 +56,7 @@ export default function Login({ isShown, setLoginShown, loginEvent }) {
             try {
                 await SignInOrUp(username, password, method);
                 setLoginShown(false);
+                loginEvent.onLogin();
             } catch (error) {
                 if (error === 401) {
                     warnInvalidCredentials('Incorrect username or password.');
