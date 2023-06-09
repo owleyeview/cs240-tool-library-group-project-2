@@ -5,11 +5,10 @@ import Spacer from './Spacer.js'
 
 export default function AddToolComponent({ showLogin }) {
   
-    const [toolName, setToolName] = useState('')
-    const [toolDescription, setToolDescription] = useState('')
-    const [toolCategory, setToolCategory] = useState('')
-    const [toolLocation, setToolLocation] = useState('')
-    const [toolIsAvailable, setToolIsAvailable] = useState(true)
+    const [toolName, setToolName] = useState('');
+    const [toolDescription, setToolDescription] = useState('');
+    const [toolCategory, setToolCategory] = useState('');
+    const [toolLocation, setToolLocation] = useState('');
     const navigate = useNavigate(); // for navigating back to tools page after adding a tool
     const {id} = useParams();
 
@@ -42,7 +41,6 @@ export default function AddToolComponent({ showLogin }) {
                 setToolDescription(data.toolDescription ?? '')
                 setToolCategory(data.toolCategory ?? '')
                 setToolLocation(data.toolLocation ?? '')
-                setToolIsAvailable(data.toolIsAvailable ?? true)
             }).catch(error => console.error(error.response));
         }
     }, [id]);
@@ -105,18 +103,6 @@ export default function AddToolComponent({ showLogin }) {
                                         className = "form-control"
                                         value = {toolLocation}
                                         onChange = {(event) => setToolLocation(event.target.value)}
-                                    >
-                                    </input>
-                                </div>
-
-                                <div className = "form-group mb-2">
-                                    <label className = "form-label"> Available now?  </label>
-                                    <input
-                                        type = "checkbox"
-                                        name = "toolAvailable"
-                                        className = "form-check-input"
-                                        value = {toolIsAvailable}
-                                        onChange = {(event) => setToolIsAvailable(event.target.checked)}
                                     >
                                     </input>
                                 </div>
