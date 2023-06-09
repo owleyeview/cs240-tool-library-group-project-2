@@ -2,12 +2,20 @@ package toollibrary.component;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
+
+import jakarta.annotation.PostConstruct;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
 
 import toollibrary.dao.MemberDao;
 import toollibrary.exception.NotSignedInException;
@@ -18,16 +26,30 @@ public class MemberComponent {
     @Autowired
     private MemberDao memberDao;
 
-    public Member checkCredentials(String credentials) throws NotSignedInException {
-        // TODO make sure credentials are valid
-        // this should probably be implemented with a JWT
+    @Value("${secretKey:secret}")
+    private String secretKey;
 
+    private Algorithm algorithm;
+    
+    private JWTVerifier verifier;
+
+    @PostConstruct
+    public void init() {
+        algorithm = Algorithm.HMAC256(secretKey);
+        verifier = JWT.require(algorithm).build();
+    }
+
+    /**
+     * checks if a token is valid
+     * @return a Member object for that user
+     */
+    public Member checkCredentials(String credentials) throws NotSignedInException {
         try {
-            return memberDao.findById(Long.parseLong(credentials)).orElseThrow();
+            Long id = verifier.verify(credentials).getClaim("userId").asLong();
+            return memberDao.findById(id).orElseThrow();
         } catch (Exception e) {
             throw new NotSignedInException();
         }
-
     }
 
     /**
@@ -55,7 +77,11 @@ public class MemberComponent {
     }
 
     private String createSignInToken(Member member) {
-        return String.valueOf(member.getId());
+        return JWT.create()
+            .withClaim("userId", member.getId())
+            .withClaim("username", member.getUsername())
+            .withIssuedAt(new Date())
+            .sign(algorithm);
     }
 
     private String getHashSHA1(String password){
