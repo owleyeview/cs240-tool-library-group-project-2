@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import * as ToolService from '../services/ToolService'
-import Spacer from './Spacer.js'
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import * as ToolService from '../services/ToolService';
+import { request } from '../services/ReservationService';
+import Spacer from './Spacer.js';
 
 export default function ListToolComponent({ showLogin }) {
   const [tools, setTools] = useState([])
@@ -36,6 +37,26 @@ export default function ListToolComponent({ showLogin }) {
     }
   }
 
+  async function reservation(type, id) {
+    if (localStorage.token) {
+      const response = await request(type, id);
+      if (response.status === 401) {
+        localStorage.removeItem('token');
+        showLogin();
+        return;
+      } else if (response.status === 403) {
+        alert(`Error. Cannot ${type} tool. Maybe someone else got it first.`);
+        console.error(response);
+      } else if (response.status === 404) {
+        alert(`Error. Connot ${type} tool. Perhaps it was deleted.`);
+        console.error(response);
+      }
+      getTools();
+    } else {
+      showLogin();
+    }
+  }
+
   return (
   <div className='container'>
     <Spacer axis="vertical" size={50} />
@@ -44,12 +65,10 @@ export default function ListToolComponent({ showLogin }) {
     <table className="table table-bordered table-striped">
       <thead>
         <tr>
-          <th> Tool Id </th>
           <th> Name </th>
           <th> Description </th>
           <th> Category </th>
           <th> Location </th>
-          <th> Available? </th>
           <th> Actions </th>
         </tr>
       </thead>
@@ -57,17 +76,27 @@ export default function ListToolComponent({ showLogin }) {
         {
           tools.map(({ tool, available, mine, canReturn }) =>
             <tr key={tool.id}>
-              <td> {tool.id} </td>
               <td> {tool.toolName} </td>
               <td> {tool.toolDescription} </td>
               <td> {tool.toolCategory} </td>
               <td> {tool.toolLocation} </td>
-              <td> {available ? 'Yes' : 'No'} </td>
-              <td>
+              <td className = "spacing">
                 { mine && <>
                   <Link to={`/update-tool/${tool.id}`} className="btn btn-info">Update</Link>
-                  <button style={{ marginLeft: "10px" }} className="btn btn-danger" onClick={() => deleteTool(tool.id)}>Delete</button>
+                  <button className="btn btn-danger" onClick={() => deleteTool(tool.id)}>Delete</button>
                 </> }
+                { available &&
+                  <button className="btn btn-success"
+                    onClick={() => reservation('checkout', tool.id)}>Checkout</button>
+                }
+                { !available && !canReturn &&
+                  <button className="btn btn-primary"
+                    onClick={() => reservation('reserve', tool.id)}>Reserve</button>
+                }
+                { canReturn &&
+                  <button className="btn btn-warning"
+                    onClick={() => reservation('return', tool.id)}>Return</button>
+                }
               </td>
             </tr>
           )

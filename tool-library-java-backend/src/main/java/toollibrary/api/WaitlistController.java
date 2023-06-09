@@ -64,6 +64,7 @@ public class WaitlistController {
 
             if (waitlist == null || waitlist.getMember().getId() == member.getId()) {
                 tool.setCheckedOutTo(member);
+                toolDao.save(tool);
                 if (waitlist != null) {
                     waitlistDao.delete(waitlist);
                 }

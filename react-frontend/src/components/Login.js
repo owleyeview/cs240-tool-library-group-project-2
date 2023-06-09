@@ -1,6 +1,6 @@
 import SignInOrUp from '../services/LoginService';
 
-export default function Login({ isShown, setLoginShown }) {
+export default function Login({ isShown, setLoginShown, loginEvent }) {
     // warns the user that the credentials are invalid.
     // this should probably be changed.
     const warnInvalidCredentials = alert;
