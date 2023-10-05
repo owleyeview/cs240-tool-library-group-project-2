@@ -40,15 +40,15 @@ currently the Controller directly communicates with the DAO(Data Access Object),
 - if you run mysql server (or MySQL Workbench) on your local computer and create a database called tool_library, when you run the Java backend program ToolLibraryApplication.java, a database table for tools will automatically be created
 
 ## To do:
-- create a custom list data structure to hold our tool objects (in ToolController.java or a new service layer?)
-- implement the library Members objects (maybe with another custom data structure?)
-- associate tools with members who own them
+- enable an admin user
+- enforce strong passwords
+- allow canceling of reservations
 - integrate testing of all the Java methods with JUnit
-- figure out how to handle and present the boolean value toolIsAvailable in the frontend
 - polish the front end
+- display a welcome page if no user is signed in
 - implement UUID for the id field/primary key
 - host the app in the cloud?
-- ?
+
 
 ## Helpful Programs
 - Postman has been used to test the http REST API and make sure the backend is functioning properly
