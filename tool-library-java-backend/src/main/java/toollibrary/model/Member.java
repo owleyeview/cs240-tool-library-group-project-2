@@ -17,9 +17,13 @@ public class Member {
     @Column(name = "password_hash")
     private String passwordHash;
 
-    public Member(String username, String passwordHash) {
+    @Column(name = "salt")
+    private String salt;
+
+    public Member(String username, String passwordHash, String salt) {
         this.username = username;
         this.passwordHash = passwordHash;
+        this.salt = salt;
     }
 
     public Member(){
@@ -44,6 +48,10 @@ public class Member {
 
     public String getPasswordHash() {
         return passwordHash;
+    }
+
+    public String getSalt() {
+        return salt;
     }
 
     public void setPasswordHash(String passwordHash) {

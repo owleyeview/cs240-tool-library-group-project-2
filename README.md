@@ -62,12 +62,10 @@ currently the Controller directly communicates with the DAO(Data Access Object),
 ### Setup (do this once)
 - in terminal, navigate to the folder you want the project to live in
 - use `git clone https://github.com/owleyeview/cs240-tool-library-group-project-2.git` to download the project
-- create a MySQL database named "tool_library"
-- navigate to `tool-library-java-backend` directory
-- run `mvn package`. Do this whenever you modify the backend.
+- open MySQL Workbench and create a MySQL database named "tool_library"
 
-### Running the program
-
-- in terminal, navigate to root directory of this project
-- run `./start.sh`
-- that's it
+### Running the app
+- open the project in your IDE
+- run ToolLibraryApplication.java (fi the database is empty this will create the necessary tables)
+- in terminal, from the /react-frontend/ folder, type `npm start` to launch the frontend
+- if the browser doesn't automatically open, navigate to  http://localhost:3000/ in your web browser to interact with the frontend
